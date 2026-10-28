@@ -41,7 +41,10 @@ const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 async function getProductById(id) {
   await wait(DELAY_MS);
   const product = PRODUCTS.find((p) => p.id === id);
-  return product ? { ...product } : undefined;
+  if (!product) {
+    throw new Error(`Produit introuvable : ${id}`);
+  }
+  return { ...product }; //return a copy of the product object to avoid external mutation
 }
 
 async function getProductsByCategory(category) {
